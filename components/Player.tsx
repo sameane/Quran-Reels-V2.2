@@ -238,9 +238,32 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
           
           await new Promise<void>((resolve, reject) => {
             if (!videoRef.current) return reject("Video ref missing");
-            videoRef.current.onloadeddata = () => resolve();
-            videoRef.current.onerror = (e) => reject("Video load error: " + e);
-            if (videoRef.current.readyState >= 2) resolve();
+            
+            const video = videoRef.current;
+            
+            const handleLoad = () => {
+              cleanup();
+              resolve();
+            };
+            
+            const handleError = () => {
+              cleanup();
+              const errorMsg = video.error ? `Code ${video.error.code}: ${video.error.message}` : "Unknown video error";
+              reject(`Video load error: ${errorMsg}`);
+            };
+
+            const cleanup = () => {
+              video.removeEventListener('loadeddata', handleLoad);
+              video.removeEventListener('error', handleError);
+            };
+
+            video.addEventListener('loadeddata', handleLoad);
+            video.addEventListener('error', handleError);
+
+            // If already loaded (e.g. from cache)
+            if (video.readyState >= 2) {
+              handleLoad();
+            }
           });
 
           await videoRef.current.play(); 
