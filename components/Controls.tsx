@@ -41,19 +41,19 @@ export const Controls: React.FC<ControlsProps> = ({
 
   return (
     <div className={`
-      fixed inset-0 z-50 bg-slate-900 border-l border-slate-800 p-6 flex flex-col h-full overflow-y-auto 
-      transition-transform duration-300 ease-in-out
+      fixed inset-0 z-50 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-l border-slate-800/50 p-6 flex flex-col h-full overflow-y-auto 
+      transition-transform duration-300 ease-in-out backdrop-blur-sm
       md:relative md:translate-x-0 md:w-[400px] md:shrink-0 md:z-10
       ${isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
     `}>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-l from-gold-400 to-amber-600 bg-clip-text text-transparent">Quran Reels</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-600 bg-clip-text text-transparent">Quran Reels</h1>
           <p className="text-slate-400 text-sm mt-1">منشئ محتوى إسلامي بالذكاء الاصطناعي</p>
         </div>
         <button 
           onClick={onToggle}
-          className="p-2 text-slate-400 hover:text-white md:hidden"
+          className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50 md:hidden"
         >
           <X size={24} />
         </button>
@@ -67,7 +67,7 @@ export const Controls: React.FC<ControlsProps> = ({
             اختر السورة
           </label>
           <select 
-            className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-gold-500 focus:outline-none transition-all"
+            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-all hover:border-slate-600 backdrop-blur-sm"
             onChange={(e) => {
               const surah = surahs.find(s => s.number === parseInt(e.target.value));
               setSelectedSurah(surah || null);

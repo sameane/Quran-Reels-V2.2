@@ -66,6 +66,11 @@ export const fetchAyahRange = async (
       arabic: arabicText,
       translation: transText,
       audioUrl: audioUrl,
+      // Default timestamps - will be reconstructed after audio processing
+      startTime: 0,
+      endTime: 0,
+      originalDuration: 0,
+      trimmedDuration: 0,
     });
   }
 

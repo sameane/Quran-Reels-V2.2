@@ -28,6 +28,11 @@ export interface ProcessedAyah {
   arabic: string;
   translation: string;
   audioUrl: string;
+  // Reconstructed timestamps (generated after audio processing)
+  startTime: number;      // Start time in seconds relative to sequence start
+  endTime: number;        // End time in seconds
+  originalDuration: number; // Original audio duration before trimming
+  trimmedDuration: number;   // Actual duration after trimming
 }
 
 export interface Reciter {
