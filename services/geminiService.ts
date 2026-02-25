@@ -4,11 +4,18 @@ import { GoogleGenAI } from "@google/genai";
 // If not available during a preview, this service will throw naturally.
 const apiKey = process.env.API_KEY || '';
 
-const ai = new GoogleGenAI({ apiKey });
+let ai: GoogleGenAI | null = null;
+if (apiKey) {
+  try {
+    ai = new GoogleGenAI({ apiKey });
+  } catch (error) {
+    console.error("Failed to initialize GoogleGenAI:", error);
+  }
+}
 
 export const getVisualKeyword = async (textChunk: string): Promise<string | null> => {
-  if (!apiKey) {
-    console.warn("No Gemini API Key found. Returning default keyword.");
+  if (!ai) {
+    console.warn("No Gemini API Key found or initialization failed. Returning default keyword.");
     return "nature calm";
   }
 
