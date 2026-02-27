@@ -214,7 +214,7 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
       
       const durationStr = formatTime(actualDuration).replace(':', 'm');
       
-      return `${safeReciter} - ${safeSurah} - الايات ${start}-${end} - ${durationStr} - quran-reels-2026.${downloadExtension}`;
+      return `${safeReciter} - ${safeSurah} - الايات ${start}-${end} - ${durationStr} - quran-reels.${downloadExtension}`;
   };
 
   // Function to modify MP4 metadata using MP4Box
@@ -615,7 +615,7 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
           media_duration: actualDuration,
           track_duration: actualDuration,
           duration: actualDuration,
-          directors: 'quran-reels-2026.netlify.app',
+          directors: 'quran-reels',
           creation_time: new Date().toISOString()
         };
         
@@ -936,29 +936,7 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
             ctx.fillText(timeStr, canvas.width - 50, barY - 15);
         }
 
-        // --- METADATA OVERLAY ---
-        // Display comprehensive metadata information
-        ctx.textAlign = 'center';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-        ctx.font = '600 18px Inter';
-        ctx.fillText('quran-reels-2026.netlify.app', canvas.width / 2, canvas.height - 100);
-        
-        if (totalDuration > 0) {
-            // Display consistent duration values
-            ctx.font = '500 16px Inter';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.fillText(`Duration: ${formatTime(totalDuration)}`, canvas.width / 2, canvas.height - 75);
-            
-            ctx.font = '400 14px Inter';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.fillText(`media_duration: ${formatTime(totalDuration)}`, canvas.width / 2, canvas.height - 55);
-            ctx.fillText(`track_duration: ${formatTime(totalDuration)}`, canvas.width / 2, canvas.height - 35);
-            
-            // Directors information
-            ctx.font = '400 14px Inter';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-            ctx.fillText('Directors: quran-reels-2026.netlify.app', canvas.width / 2, canvas.height - 15);
-        }
+
 
         if (isRecording) {
             ctx.fillStyle = '#ef4444';
