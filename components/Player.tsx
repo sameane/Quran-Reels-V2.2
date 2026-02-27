@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { ProcessedAyah, Surah } from '../types';
-import { Play, Pause, Download, RefreshCcw, AlertCircle, X, CheckCircle2 } from 'lucide-react';
+import { Play, Pause, RefreshCcw, AlertCircle, X, CheckCircle2 } from 'lucide-react';
+import { performDeepTranscode } from '../src/utils/ffmpegTranscoder';
 
 interface PlayerProps {
   ayahs: ProcessedAyah[];
@@ -177,9 +178,12 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
   const [isRecording, setIsRecording] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadExtension, setDownloadExtension] = useState<string>('mp4');
+  const [isTranscoding, setIsTranscoding] = useState(false);
+  const [transcodingProgress, setTranscodingProgress] = useState(0);
   
   const [toast, setToast] = useState<{ message: string; type: 'error' | 'success' } | null>(null);
   const [totalDuration, setTotalDuration] = useState<number>(0);
+  const [isExporting, setIsExporting] = useState(false);
 
   // Initialize Particles
   useEffect(() => {
@@ -441,6 +445,8 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
     }
 
     setIsPlaying(false);
+    setIsRecording(false);
+    setIsExporting(false);
     setCurrentAyahIndex(0);
     smoothedAmplitudeRef.current = 0;
     if (videoRef.current) videoRef.current.pause();
@@ -460,7 +466,10 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
     stopPlayback();
     videoRef.current.play();
     setIsPlaying(true);
-    if (record) setIsRecording(true);
+    if (record) {
+      setIsRecording(true);
+      setIsExporting(true);
+    }
 
     const ctx = audioContextRef.current;
     let startTime = ctx.currentTime + 0.1; 
@@ -643,24 +652,46 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
             ? reconstructedTimestampsRef.current[reconstructedTimestampsRef.current.length - 1].endTime
             : audioBuffersRef.current.reduce((acc, buf) => acc + buf.duration, 0);
           
-          // Try to modify MP4 metadata if supported
-          if (typeof window !== 'undefined' && (window as any).MP4Box && selectedMimeType.includes('mp4')) {
-            try {
-              console.log('Attempting to modify MP4 metadata...');
-              const modifiedBlob = await modifyMP4Metadata(blob, actualDuration);
-              blob = modifiedBlob;
-              console.log('MP4 metadata modified successfully');
-            } catch (error) {
-              console.warn('Failed to modify MP4 metadata:', error);
-              // Continue with original blob if modification fails
-            }
-          }
+          // Start transcoding process
+          setIsTranscoding(true);
+          setTranscodingProgress(0);
+          setToast({ message: "جاري معالجة الفيديو يرجي الانتظار قليلا", type: 'success' });
           
-          const url = URL.createObjectURL(blob);
-          setDownloadUrl(url);
-          setIsRecording(false);
-          setIsPlaying(false);
-          setToast({ message: "تم التسجيل بنجاح!", type: 'success' });
+          try {
+            // Perform deep transcoding for social media compatibility with progress tracking
+            const transcodedBlob = await performDeepTranscode(
+              blob, 
+              'input.webm', 
+              'output.mp4',
+              (progress) => {
+                setTranscodingProgress(progress);
+              }
+            );
+            
+            console.log('Transcoding completed, new size:', transcodedBlob.size, 'bytes');
+            
+            // Create download URL for transcoded video
+            const url = URL.createObjectURL(transcodedBlob);
+            setDownloadUrl(url);
+            setDownloadExtension('mp4'); // Always MP4 after transcoding
+            setToast({ message: "تم معالجة الفيديو بنجاح! جاهز للتحميل", type: 'success' });
+            
+          } catch (error) {
+            console.error('Transcoding failed:', error);
+            
+            // Fallback to original blob if transcoding fails
+            const url = URL.createObjectURL(blob);
+            setDownloadUrl(url);
+            setToast({ 
+              message: "فشلت معالجة الفيديو، سيتم تحميل النسخة الأصلية", 
+              type: 'error' 
+            });
+          } finally {
+            setIsTranscoding(false);
+            setTranscodingProgress(0);
+            setIsRecording(false);
+            setIsPlaying(false);
+          }
           
           if (silentSourceRef.current) {
             try { silentSourceRef.current.stop(); } catch(e){}
@@ -961,55 +992,50 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
             <canvas ref={canvasRef} width={1080} height={1920} className="w-full h-full object-contain bg-black" />
         </div>
 
-        <div className="absolute bottom-8 flex items-center gap-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-full border border-slate-700">
-            {downloadUrl ? (
-                <>
-                    <a 
-                        href={downloadUrl} 
-                        download={getFileName()}
-                        className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-full font-bold transition-colors"
-                    >
-                        <Download size={20} />
-                        تحميل الفيديو
-                    </a>
-                    <button onClick={() => { setDownloadUrl(null); }} className="p-2 text-slate-300 hover:text-white">
-                        <RefreshCcw size={20} />
-                    </button>
-                </>
-            ) : (
-                <>
-                     {!isPlaying ? (
-                        <div className="flex items-center gap-3">
-                            <button 
-                                onClick={() => playSequence(false)} 
-                                disabled={!isReady}
-                                className={`p-4 rounded-full transition-all transform hover:scale-105 ${isReady ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg shadow-emerald-500/25' : 'bg-slate-800 text-slate-600'}`}
-                                title="تشغيل"
-                            >
-                                <Play size={24} fill="currentColor" />
-                            </button>
-                            <button 
-                                onClick={() => playSequence(true)}
-                                disabled={!isReady} 
-                                className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all transform hover:scale-105
-                                    ${isReady ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-500/25' : 'bg-slate-800 text-slate-600'}
-                                `}
-                            >
-                                <div className="w-3 h-3 rounded-full bg-white animate-pulse" />
-                               تصدير
-                            </button>
-                        </div>
-                    ) : (
-                        <button onClick={stopPlayback} className="p-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-full text-white shadow-lg shadow-amber-500/25 transform hover:scale-105 transition-all">
-                            <Pause size={24} fill="currentColor" />
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="flex items-center gap-4 pointer-events-auto">
+                {isTranscoding ? (
+                    <div className="flex flex-col items-center gap-2 bg-slate-800/80 backdrop-blur-sm p-4 rounded-lg">
+                        <div className="text-white font-bold">جاري معالجة الفيديو يرجي الانتظار قليلا</div>
+                    </div>
+                ) : downloadUrl ? (
+                    <>
+                        <a 
+                            href={downloadUrl} 
+                            download={getFileName()}
+                            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-full font-bold transition-colors"
+                        >
+                            تحميل الفيديو
+                        </a>
+                        <button onClick={() => { setDownloadUrl(null); }} className="p-2 text-slate-300 hover:text-white">
+                            <RefreshCcw size={20} />
                         </button>
-                    )}
-                    
-                    <button onClick={onReset} className="p-3 text-slate-400 hover:text-white transition-colors">
-                        <RefreshCcw size={20} />
-                    </button>
-                </>
-            )}
+                    </>
+                ) : (
+                    <>
+                         {!isPlaying ? (
+                            <div className="flex items-center gap-3">
+                                <button 
+                                    onClick={() => playSequence(true)} 
+                                    disabled={!isReady}
+                                    className={`p-8 rounded-full transition-all transform hover:scale-105 ${isReady ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg shadow-emerald-500/25' : 'bg-slate-800 text-slate-600'}`}
+                                    title="تشغيل وتصدير"
+                                >
+                                    <Play size={40} fill="currentColor" />
+                                </button>
+                            </div>
+                        ) : (
+                        <button onClick={stopPlayback} 
+                           className="opacity-0 hover:opacity-100 p-8 bg-gradient-to-r from-amber-500/50 to-amber-600/50 rounded-full text-white shadow-lg shadow-amber-500/25 transform hover:scale-105 transition-all backdrop-blur-sm border border-white/20">
+                        <Pause size={40} fill="currentColor" />
+                        </button>                        )}
+                        
+                        <button onClick={onReset} className="absolute top-6 right-6 p-3 text-slate-400 hover:text-white transition-colors bg-slate-900/50 backdrop-blur-sm rounded-full">
+                            <RefreshCcw size={20} />
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
 
         {toast && (
