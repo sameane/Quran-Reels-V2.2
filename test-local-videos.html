@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Local Videos</title>
+</head>
+<body>
+    <h1>Testing Local Video Loading</h1>
+    <div id="results"></div>
+    
+    <script>
+        // Test function to simulate the local video loading
+        function testLocalVideos() {
+            const localVideos = [
+                '/assets/6962-197634410_medium.mp4',
+                '/assets/8947-215890483_medium.mp4',
+                '/assets/9153-217588676_medium.mp4',
+                '/assets/17013-278400948_medium.mp4',
+                '/assets/21723-320725678_medium.mp4',
+                '/assets/126678-736705679_medium.mp4',
+                '/assets/140568-775389231_medium.mp4',
+                '/assets/140733-775596128_medium.mp4',
+                '/assets/280165_medium.mp4',
+                '/assets/312999_medium.mp4'
+            ];
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Available Local Videos:</h2>';
+
+            localVideos.forEach((video, index) => {
+                const videoElement = document.createElement('video');
+                videoElement.src = video;
+                videoElement.width = 320;
+                videoElement.height = 240;
+                videoElement.controls = true;
+
+                const container = document.createElement('div');
+                container.innerHTML = `<h3>Video ${index + 1}: ${video}</h3>`;
+                container.appendChild(videoElement);
+
+                resultsDiv.appendChild(container);
+            });
+        }
+
+        // Run test when page loads
+        window.onload = testLocalVideos;
+    </script>
+</body>
+</html>

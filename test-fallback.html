@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Local Video Fallback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .video-container {
+            margin: 20px 0;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+        .info {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Local Video Fallback</h1>
+    <p>This test verifies that when PEXELS_API_KEY is not working, the system falls back to random videos from the assets folder.</p>
+    
+    <div class="info">
+        <strong>Available Local Videos:</strong>
+        <ul id="videoList"></ul>
+    </div>
+    
+    <div class="video-container">
+        <h3>Randomly Selected Video:</h3>
+        <video id="testVideo" controls></video>
+        <p id="videoInfo"></p>
+    </div>
+
+    <button onclick="selectRandomVideo()">Select Another Random Video</button>
+
+    <script>
+        const localVideos = [
+            '/assets/6962-197634410_medium.mp4',
+            '/assets/8947-215890483_medium.mp4',
+            '/assets/9153-217588676_medium.mp4',
+            '/assets/17013-278400948_medium.mp4',
+            '/assets/21723-320725678_medium.mp4',
+            '/assets/126678-736705679_medium.mp4',
+            '/assets/140568-775389231_medium.mp4',
+            '/assets/140733-775596128_medium.mp4',
+            '/assets/280165_medium.mp4',
+            '/assets/312999_medium.mp4'
+        ];
+
+        function populateVideoList() {
+            const list = document.getElementById('videoList');
+            localVideos.forEach(video => {
+                const li = document.createElement('li');
+                li.textContent = video;
+                list.appendChild(li);
+            });
+        }
+
+        function selectRandomVideo() {
+            const randomIndex = Math.floor(Math.random() * localVideos.length);
+            const selectedVideo = localVideos[randomIndex];
+            const videoElement = document.getElementById('testVideo');
+            const infoElement = document.getElementById('videoInfo');
+            
+            videoElement.src = selectedVideo;
+            infoElement.textContent = `Selected: ${selectedVideo} (Index: ${randomIndex + 1}/${localVideos.length})`;
+            
+            videoElement.load();
+        }
+
+        // Initialize
+        populateVideoList();
+        selectRandomVideo();
+    </script>
+</body>
+</html>

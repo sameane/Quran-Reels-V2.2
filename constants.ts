@@ -4,6 +4,9 @@ import { Reciter } from './types';
 // Pexels Key provided in spec
 export const PEXELS_API_KEY = 'kcGUOqBqL2T4hmzu3YAguXBcyhDtKhnTvfmzQgzUJpD8DOmJO67OF6iC';
 
+// Check if Pexels API key is available and valid
+export const HAS_PEXELS_ACCESS = PEXELS_API_KEY && PEXELS_API_KEY.length > 10 && PEXELS_API_KEY !== 'DISABLED';
+
 export const RECITERS: Reciter[] = [
   { id: 'Alafasy_128kbps', name: 'مشاري راشد العفاسي' },
   { id: 'Ahmed_ibn_Ali_al-Ajamy_128kbps', name: 'أحمد بن علي العجمي' },
