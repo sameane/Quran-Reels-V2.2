@@ -73,7 +73,7 @@ function App() {
           <div className="flex flex-col items-center justify-center p-8 text-center ramadan-card max-w-md mx-4">
             {/* Crescent Moon Image */}
             <img
-              src="/crescent moon.png"
+              src="/crescent-moon.png"
               alt="Crescent Moon"
               className="w-80 h-80 mb-8 object-contain"
               style={{ filter: 'drop-shadow(0 0 15px rgba(245, 158, 11, 0.6))' }}
