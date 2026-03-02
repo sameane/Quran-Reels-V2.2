@@ -58,4 +58,5 @@ export interface GenerationState {
   message: string;
   progress: number;
   error?: string;
+  warning?: string;
 }

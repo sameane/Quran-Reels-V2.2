@@ -38,5 +38,6 @@ export const AUDIO_BASE_URL = 'https://everyayah.com/data';
 export const PEXELS_API_BASE = 'https://api.pexels.com/v1';
 export const PEXELS_COLLECTION_ID = 'ynfjbj8';
 
-// Fallback nature video if Pexels search fails or returns nothing suitable
-export const FALLBACK_VIDEO_URL = 'https://player.vimeo.com/external/174002621.sd.mp4?s=6319c5b651030310842095811797828588046808&profile_id=165&oauth2_token_id=57447761';
+// Fallback to local videos when Pexels fails
+export const FALLBACK_VIDEO_URL = '/assets/landscape.mp4';
+

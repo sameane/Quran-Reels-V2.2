@@ -52,10 +52,12 @@ export const useQuranMedia = (): UseQuranMediaReturn => {
       
       if (!keyword) {
         console.warn("AI Analysis failed, using default keyword");
-        // We still continue but we can set a message or flag
-        // The user wants a "beautiful notification"
-        // Since we are in the middle of a process, we can add a message to the state
-        setState(prev => ({ ...prev, message: 'تنبيه: تعذر تحليل النص بدقة، سيتم استخدام خلفية افتراضية' }));
+        // Show user notification about AI failure
+        setState(prev => ({
+          ...prev,
+          message: 'تنبيه: تعذر تحليل النص بالذكاء الاصطناعي، سيتم استخدام خلفية افتراضية',
+          warning: 'AI_FAILURE'
+        }));
       }
 
       console.log("AI Keyword:", keyword);

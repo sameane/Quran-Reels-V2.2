@@ -985,11 +985,11 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
   }, [ayahs, currentAyahIndex, isRecording, surahInfo, isPlaying]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full bg-slate-950 relative p-4 gap-4">
+    <div className="flex flex-col items-center justify-center w-full h-full relative p-4 gap-4">
         <video ref={videoRef} className="hidden" playsInline webkit-playsinline="true" />
 
-        <div className="relative shadow-2xl rounded-2xl overflow-hidden border border-slate-800" style={{ maxHeight: '80vh', aspectRatio: '9/16' }}>
-            <canvas ref={canvasRef} width={1080} height={1920} className="w-full h-full object-contain bg-black" />
+        <div className="relative shadow-2xl rounded-2xl overflow-hidden border border-slate-800/50 backdrop-blur-sm" style={{ maxHeight: '80vh', aspectRatio: '9/16' }}>
+            <canvas ref={canvasRef} width={1080} height={1920} className="w-full h-full object-contain bg-transparent" />
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

@@ -154,11 +154,10 @@ export const fetchBackgroundVideos = async (keyword: string, count: number = 3):
     // If Pexels returns no videos, fallback to local videos
     console.log('No videos found from Pexels, using local fallback');
     const localVideos = getLocalVideoFiles();
-    const result: string[] = [];
-    for (let i = 0; i < count; i++) {
-      result.push(localVideos[i % localVideos.length]);
-    }
-    return result;
+    
+    // Shuffle videos randomly and select the requested count
+    const shuffledVideos = shuffleArray(localVideos);
+    return shuffledVideos.slice(0, Math.min(count, localVideos.length));
     
   } catch (error) {
     console.error('Pexels fetch failed', error);
@@ -166,10 +165,9 @@ export const fetchBackgroundVideos = async (keyword: string, count: number = 3):
     // Fallback to local videos on any error
     console.log('Falling back to local video files');
     const localVideos = getLocalVideoFiles();
-    const result: string[] = [];
-    for (let i = 0; i < count; i++) {
-      result.push(localVideos[i % localVideos.length]);
-    }
-    return result;
+    
+    // Shuffle videos randomly and select the requested count
+    const shuffledVideos = shuffleArray(localVideos);
+    return shuffledVideos.slice(0, Math.min(count, localVideos.length));
   }
 };

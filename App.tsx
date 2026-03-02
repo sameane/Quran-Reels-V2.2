@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Controls } from './components/Controls';
 import { Player } from './components/Player';
+import AnimatedBackground from './components/AnimatedBackground';
 import { useQuranMedia } from './hooks/useQuranMedia';
 import { fetchSurahs } from './services/api';
 import { Surah } from './types';
@@ -33,36 +34,8 @@ function App() {
 
   return (
     <div className="flex h-screen w-screen ramadan-gradient text-accent overflow-hidden relative islamic-pattern">
-      {/* Enhanced Starry Night Sky Background */}
-      <div className="absolute inset-0 z-0">
-        {Array.from({ length: 100 }).map((_, i) => {
-          const starType = i % 10 === 0 ? 'large' : i % 3 === 0 ? 'small' : '';
-          const starColor = i % 7 === 0 ? 'gold' : i % 5 === 0 ? 'blue' : '';
-          return (
-            <div
-              key={i}
-              className={`star ${starType} ${starColor}`}
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${2 + Math.random() * 4}s`
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Crescent Moon Image - Larger and Animated */}
-      <img
-        src="/assets/crescent moon.png"
-        alt="Crescent Moon"
-        className="absolute top-8 left-8 w-24 h-24 z-10 object-contain"
-        style={{
-          filter: 'drop-shadow(0 0 25px rgba(245, 158, 11, 0.9))',
-          animation: 'float-moon 6s ease-in-out infinite'
-        }}
-      />
+      {/* Enhanced Animated Background */}
+      <AnimatedBackground />
 
       {/* Sidebar Controls */}
       <Controls
@@ -87,20 +60,22 @@ function App() {
         )}
         
         {state.status === 'ready' && data.ayahs.length > 0 ? (
-          <Player
-            ayahs={data.ayahs}
-            videoUrls={data.videoUrls}
-            surahInfo={data.surahInfo}
-            reciterName={currentReciterName}
-            onReset={reset}
-          />
+          <div className="absolute inset-0 z-10 flex items-center justify-center">
+            <Player
+              ayahs={data.ayahs}
+              videoUrls={data.videoUrls}
+              surahInfo={data.surahInfo}
+              reciterName={currentReciterName}
+              onReset={reset}
+            />
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center p-8 text-center ramadan-card max-w-md mx-4">
             {/* Crescent Moon Image */}
             <img
               src="/assets/crescent moon.png"
               alt="Crescent Moon"
-              className="w-16 h-16 mb-8 object-contain"
+              className="w-80 h-80 mb-8 object-contain"
               style={{ filter: 'drop-shadow(0 0 15px rgba(245, 158, 11, 0.6))' }}
             />
             
@@ -132,6 +107,12 @@ function App() {
             {state.status === 'error' && (
                <div className="mt-6 p-4 bg-red-900/20 border border-red-900/50 rounded text-red-300 ramadan-card">
                   <span className="font-bold">خطأ:</span> {state.error}
+               </div>
+            )}
+            
+            {state.warning && (
+               <div className="mt-6 p-4 bg-yellow-900/20 border border-yellow-900/50 rounded text-yellow-300 ramadan-card">
+                  <span className="font-bold">تنبيه:</span> {state.message}
                </div>
             )}
           </div>
