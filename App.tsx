@@ -32,11 +32,42 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-white overflow-hidden relative">
+    <div className="flex h-screen w-screen ramadan-gradient text-accent overflow-hidden relative islamic-pattern">
+      {/* Enhanced Starry Night Sky Background */}
+      <div className="absolute inset-0 z-0">
+        {Array.from({ length: 100 }).map((_, i) => {
+          const starType = i % 10 === 0 ? 'large' : i % 3 === 0 ? 'small' : '';
+          const starColor = i % 7 === 0 ? 'gold' : i % 5 === 0 ? 'blue' : '';
+          return (
+            <div
+              key={i}
+              className={`star ${starType} ${starColor}`}
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${2 + Math.random() * 4}s`
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Crescent Moon Image - Larger and Animated */}
+      <img
+        src="/assets/crescent moon.png"
+        alt="Crescent Moon"
+        className="absolute top-8 left-8 w-24 h-24 z-10 object-contain"
+        style={{
+          filter: 'drop-shadow(0 0 25px rgba(245, 158, 11, 0.9))',
+          animation: 'float-moon 6s ease-in-out infinite'
+        }}
+      />
+
       {/* Sidebar Controls */}
-      <Controls 
-        surahs={surahs} 
-        onGenerate={handleGenerate} 
+      <Controls
+        surahs={surahs}
+        onGenerate={handleGenerate}
         isLoading={state.status !== 'idle' && state.status !== 'ready' && state.status !== 'error'}
         statusMessage={`${state.message} ${state.progress > 0 ? `(${state.progress}%)` : ''}`}
         isOpen={isSidebarOpen}
@@ -44,51 +75,63 @@ function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 relative flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-slate-950 overflow-hidden">
+      <main className="flex-1 relative flex items-center justify-center overflow-hidden">
         {/* Mobile Toggle Button (only visible when sidebar is closed on mobile) */}
         {!isSidebarOpen && (
-          <button 
+          <button
             onClick={() => setIsSidebarOpen(true)}
-            className="absolute top-4 right-4 z-20 p-3 bg-gold-500 text-slate-950 rounded-full shadow-lg md:hidden hover:bg-gold-400 transition-all active:scale-90"
+            className="absolute top-6 right-6 z-20 p-4 ramadan-btn md:hidden transition-all active:scale-90"
           >
             <Menu size={24} />
           </button>
         )}
         
         {state.status === 'ready' && data.ayahs.length > 0 ? (
-          <Player 
-            ayahs={data.ayahs} 
-            videoUrls={data.videoUrls} 
+          <Player
+            ayahs={data.ayahs}
+            videoUrls={data.videoUrls}
             surahInfo={data.surahInfo}
             reciterName={currentReciterName}
             onReset={reset}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center p-8 text-center opacity-50">
-            <div className="w-24 h-24 border-4 border-slate-800 rounded-full flex items-center justify-center mb-6">
-                <div className="w-3 h-3 bg-slate-600 rounded-full" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-700">لم يتم إنشاء أي ريل بعد</h2>
+          <div className="flex flex-col items-center justify-center p-8 text-center ramadan-card max-w-md mx-4">
+            {/* Crescent Moon Image */}
+            <img
+              src="/assets/crescent moon.png"
+              alt="Crescent Moon"
+              className="w-16 h-16 mb-8 object-contain"
+              style={{ filter: 'drop-shadow(0 0 15px rgba(245, 158, 11, 0.6))' }}
+            />
+            
+            <h2 className="text-3xl font-bold ramadan-text mb-6 font-arabic">
+              لم يتم إنشاء أي ريل بعد
+            </h2>
             
             {state.status !== 'idle' && state.status !== 'ready' && state.status !== 'error' && (
-              <div className="my-6 flex flex-col items-center gap-3">
-                <p className="text-gold-500 font-medium animate-pulse text-lg">{state.message}</p>
-                <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
-                  <div 
-                    className="h-full bg-gradient-to-r from-gold-600 to-amber-400 transition-all duration-500 shadow-[0_0_10px_rgba(212,175,55,0.5)]" 
+              <div className="my-6 flex flex-col items-center gap-4 w-full">
+                <p className="text-ramadan-gold-300 font-medium animate-pulse text-lg">
+                  {state.message}
+                </p>
+                <div className="w-full h-3 bg-ramadan-sapphire rounded-full overflow-hidden border border-ramadan-gold/30">
+                  <div
+                    className="h-full gold-gradient transition-all duration-500 shadow-[0_0_15px_rgba(245,158,11,0.6)]"
                     style={{ width: `${state.progress}%` }}
                   />
                 </div>
-                <span className="text-sm text-slate-400 font-mono">{state.progress}%</span>
+                <span className="text-ramadan-gold-light text-sm font-mono">
+                  {state.progress}%
+                </span>
               </div>
             )}
 
-            <p className="text-slate-500 mt-2 max-w-md">
+            <p className="text-ramadan-moon-300 mt-4 max-w-md font-arabic text-lg">
               اختر السورة والآيات من القائمة الجانبية لإنشاء فيديو روحاني مدعوم بالذكاء الاصطناعي.
             </p>
+            
             {state.status === 'error' && (
-               <div className="mt-4 p-4 bg-red-900/20 border border-red-900/50 rounded text-red-400">
-                  خطأ: {state.error}
+               <div className="mt-6 p-4 bg-red-900/20 border border-red-900/50 rounded text-red-300 ramadan-card">
+                  <span className="font-bold">خطأ:</span> {state.error}
                </div>
             )}
           </div>

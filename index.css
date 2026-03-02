@@ -1,17 +1,289 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 
-/* Custom scrollbar for dark theme */
+/* Modern Ramadan Theme Styles */
+:root {
+  --ramadan-deep-night: #0a0f1a;
+  --ramadan-midnight: #0f172a;
+  --ramadan-sapphire: #1e293b;
+  --ramadan-gold: #f59e0b;
+  --ramadan-gold-light: #fbbf24;
+  --ramadan-moon: #f1f5f9;
+  --ramadan-emerald: #10b981;
+  --ramadan-cream: #fef7cd;
+  --ramadan-gold-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
+  --ramadan-night-gradient: linear-gradient(135deg, #0a0f1a 0%, #0f172a 30%, #1e293b 70%, #312e81 100%);
+}
+
+/* Enhanced Custom scrollbar for Ramadan theme */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f172a; 
+  background: var(--ramadan-deep-night);
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155; 
-  border-radius: 4px;
+  background: var(--ramadan-gold-gradient);
+  border-radius: 10px;
+  border: 2px solid var(--ramadan-deep-night);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569; 
+  background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 50%, #fef3c7 100%);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+/* Modern Ramadan decorative elements */
+.ramadan-glow {
+  box-shadow: 
+    0 0 25px rgba(245, 158, 11, 0.4),
+    0 0 50px rgba(245, 158, 11, 0.3),
+    0 0 75px rgba(245, 158, 11, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.ramadan-gradient {
+  background: var(--ramadan-night-gradient);
+}
+
+.gold-gradient {
+  background: var(--ramadan-gold-gradient);
+}
+
+.ramadan-glass {
+  background: rgba(15, 23, 42, 0.15);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Modern Islamic geometric pattern overlay */
+.islamic-pattern {
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 60%);
+  background-size: 200px 200px;
+}
+
+/* Modern Ramadan button styles */
+.ramadan-btn {
+  background: var(--ramadan-gold-gradient);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  color: var(--ramadan-midnight);
+  font-weight: 600;
+  font-family: 'Amiri', serif;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(245, 158, 11, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.ramadan-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 25px rgba(245, 158, 11, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.ramadan-btn:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 10px rgba(245, 158, 11, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Modern Crescent moon animation */
+.crescent-moon {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  box-shadow: 
+    0 0 40px rgba(241, 245, 249, 0.6),
+    0 0 80px rgba(241, 245, 249, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: float-moon 6s ease-in-out infinite;
+}
+
+.crescent-moon::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--ramadan-deep-night);
+  transform: translateX(-20px);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes float-moon {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* Enhanced Starry Night Sky animation */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8) rotate(0deg);
+    filter: blur(0.5px);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.5) rotate(90deg);
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2) rotate(180deg);
+    filter: blur(0.8px);
+  }
+  75% {
+    opacity: 0.6;
+    transform: scale(1) rotate(270deg);
+    filter: blur(0.6px);
+  }
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: twinkle 4s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+}
+
+.star.small {
+  width: 2px;
+  height: 2px;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+}
+
+.star.large {
+  width: 5px;
+  height: 5px;
+  animation-duration: 6s;
+  animation-delay: 1s;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+}
+
+.star.gold {
+  background: var(--ramadan-gold);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.9);
+}
+
+.star.blue {
+  background: #93c5fd;
+  box-shadow: 0 0 12px rgba(147, 197, 253, 0.8);
+}
+
+/* Modern Glass morphism effect */
+.glass-morphism {
+  background: rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Enhanced Ramadan lantern effect */
+.lantern-glow {
+  box-shadow: 
+    0 0 30px rgba(245, 158, 11, 0.5),
+    0 0 60px rgba(245, 158, 11, 0.4),
+    0 0 90px rgba(245, 158, 11, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  animation: lantern-pulse 3s ease-in-out infinite;
+}
+
+@keyframes lantern-pulse {
+  0%, 100% { 
+    box-shadow: 
+      0 0 30px rgba(245, 158, 11, 0.5),
+      0 0 60px rgba(245, 158, 11, 0.4),
+      0 0 90px rgba(245, 158, 11, 0.3),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% { 
+    box-shadow: 
+      0 0 40px rgba(245, 158, 11, 0.6),
+      0 0 80px rgba(245, 158, 11, 0.5),
+      0 0 120px rgba(245, 158, 11, 0.4),
+      inset 0 0 30px rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Modern Ramadan text styles */
+.ramadan-text {
+  background: var(--ramadan-gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ramadan-text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ramadan-gold);
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+/* Modern Ramadan card styles */
+.ramadan-card {
+  background: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.ramadan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Arabic text styling */
+.arabic-text {
+  font-family: 'Noto Sans Arabic', 'Amiri', serif;
+  font-feature-settings: "liga" 1;
+}
+
+/* Hover effects */
+.ramadan-hover {
+  transition: all 0.3s ease;
+}
+
+.ramadan-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+}
+
+/* Loading animation */
+.ramadan-loading {
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }

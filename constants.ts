@@ -2,7 +2,7 @@ import { Reciter } from './types';
 
 // NOTE: In a production environment, keys should be proxied or in .env
 // Pexels Key provided in spec
-export const PEXELS_API_KEY = 'kcGUOqBqL2T4hmzu3YAguXBcyhDtKhnTvfmzQgzUJpD8DOmJO67OF6iC';
+export const PEXELS_API_KEY = import.meta.env.VITE_PEXELS_API_KEY || 'kcGUOqBqL2T4hmzu3YAguXBcyhDtKhnTvfmzQgzUJpD8DOmJO67OF6iC';
 
 // Check if Pexels API key is available and valid
 export const HAS_PEXELS_ACCESS = PEXELS_API_KEY && PEXELS_API_KEY.length > 10 && PEXELS_API_KEY !== 'DISABLED';

@@ -41,19 +41,19 @@ export const Controls: React.FC<ControlsProps> = ({
 
   return (
     <div className={`
-      fixed inset-0 z-50 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-l border-slate-800/50 p-6 flex flex-col h-full overflow-y-auto 
-      transition-transform duration-300 ease-in-out backdrop-blur-sm
+      fixed inset-0 z-50 ramadan-glass border-l border-ramadan-gold/20 p-6 flex flex-col h-full overflow-y-auto
+      transition-transform duration-300 ease-in-out
       md:relative md:translate-x-0 md:w-[400px] md:shrink-0 md:z-10
       ${isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
     `}>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-600 bg-clip-text text-transparent">Quran Reels</h1>
-          <p className="text-slate-400 text-sm mt-1">منشئ محتوى إسلامي بالذكاء الاصطناعي</p>
+          <h1 className="text-3xl font-bold ramadan-text font-arabic">قرآن ريلز</h1>
+          <p className="text-ramadan-moon-400 text-sm mt-1 font-arabic">منشئ محتوى إسلامي بالذكاء الاصطناعي</p>
         </div>
-        <button 
+        <button
           onClick={onToggle}
-          className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50 md:hidden"
+          className="p-2 text-ramadan-moon-400 hover:text-ramadan-gold-light transition-colors rounded-lg hover:bg-ramadan-gold/10 md:hidden"
         >
           <X size={24} />
         </button>
@@ -62,12 +62,13 @@ export const Controls: React.FC<ControlsProps> = ({
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Surah Selection */}
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-slate-300 text-sm font-medium">
-            <BookOpen size={16} className="text-gold-500" />
+          <label className="flex items-center gap-2 text-ramadan-moon-300 text-sm font-medium font-arabic">
+            <BookOpen size={16} className="text-ramadan-gold-400" />
             اختر السورة
           </label>
-          <select 
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-all hover:border-slate-600 backdrop-blur-sm"
+          <select
+            className="w-full border border-ramadan-gold/20 rounded-xl p-3 text-ramadan-moon-100 focus:ring-2 focus:ring-ramadan-gold focus:border-ramadan-gold focus:outline-none transition-all hover:border-ramadan-gold/40"
+            style={{ backgroundColor: '#0A0E1E' }}
             onChange={(e) => {
               const surah = surahs.find(s => s.number === parseInt(e.target.value));
               setSelectedSurah(surah || null);
@@ -88,30 +89,32 @@ export const Controls: React.FC<ControlsProps> = ({
         {selectedSurah && (
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-slate-300 text-sm font-medium">من الآية</label>
-              <input 
-                type="number" 
-                min="1" 
+              <label className="text-ramadan-moon-300 text-sm font-medium font-arabic">من الآية</label>
+              <input
+                type="number"
+                min="1"
                 max={selectedSurah.numberOfAyahs}
                 value={startAyah}
                 onChange={(e) => setStartAyah(Number(e.target.value))}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-gold-500 outline-none"
+                className="w-full border border-ramadan-gold/20 rounded-lg p-3 text-ramadan-moon-100 focus:ring-2 focus:ring-ramadan-gold outline-none"
+                style={{ backgroundColor: '#0A0E1E' }}
                 disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
-              <label className="text-slate-300 text-sm font-medium">إلى الآية</label>
-              <input 
-                type="number" 
-                min={startAyah} 
+              <label className="text-ramadan-moon-300 text-sm font-medium font-arabic">إلى الآية</label>
+              <input
+                type="number"
+                min={startAyah}
                 max={selectedSurah.numberOfAyahs}
                 value={endAyah}
                 onChange={(e) => setEndAyah(Number(e.target.value))}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-gold-500 outline-none"
+                className="w-full border border-ramadan-gold/20 rounded-lg p-3 text-ramadan-moon-100 focus:ring-2 focus:ring-ramadan-gold outline-none"
+                style={{ backgroundColor: '#0A0E1E' }}
                 disabled={isLoading}
               />
             </div>
-            <p className="col-span-2 text-xs text-slate-500 text-center">
+            <p className="col-span-2 text-xs text-ramadan-moon-400 text-center font-arabic">
               عدد الآيات في السورة: {selectedSurah.numberOfAyahs}
             </p>
           </div>
@@ -123,8 +126,9 @@ export const Controls: React.FC<ControlsProps> = ({
             <Mic size={16} className="text-gold-500" />
             القارئ
           </label>
-          <select 
-            className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-gold-500 focus:outline-none"
+          <select
+            className="w-full border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-gold-500 focus:outline-none"
+            style={{ backgroundColor: '#0A0E1E' }}
             value={selectedReciter}
             onChange={(e) => setSelectedReciter(e.target.value)}
             disabled={isLoading}

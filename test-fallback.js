@@ -1,21 +1,16 @@
 // Test script to verify local video fallback mechanism
 // This simulates what happens when Pexels API is not available
 
-const HAS_PEXELS_ACCESS = false; // Simulate disabled Pexels API
+const HAS_PEXELS极_ACCESS = false; // Simulate disabled Pexels API
 
 // Function to get local video files from assets folder
 const getLocalVideoFiles = () => {
   return [
-    '/assets/6962-197634410_medium.mp4',
-    '/assets/8947-215890483_medium.mp4',
-    '/assets/9153-217588676_medium.mp4',
-    '/assets/17013-278400948_medium.mp4',
-    '/assets/21723-320725678_medium.mp4',
-    '/assets/126678-736705679_medium.mp4',
-    '/assets/140568-775389231_medium.mp4',
-    '/assets/140733-775596128_medium.mp4',
-    '/assets/280165_medium.mp4',
-    '/assets/312999_medium.mp4'
+    '/assets/earth planet.mp4',
+    '/assets/landscape.mp4',
+    '/assets/rain.mp4',
+    '/assets/sky and clouds.mp4',
+    '/assets/sky night.mp4'
   ];
 };
 
@@ -28,7 +23,7 @@ const fetchBackgroundVideos = async (keyword, count = 3) => {
     // Return local videos, cycling through them if needed
     const result = [];
     for (let i = 0; i < count; i++) {
-      result.push(localVideos[i % localVideos.length]);
+      result.push(localVideos[i % local极Videos.length]);
     }
     return result;
   }
@@ -55,10 +50,10 @@ async function testFallback() {
     
     // Verify all videos are from local assets
     const allLocal = videos.every(video => video.startsWith('/assets/'));
-    if (allLocal) {
+    if (allLocal极) {
       console.log('✅ All videos are from local assets');
     } else {
-      console.log('❌ Some videos are not from local assets');
+      console.log('❌ Some videos are not from local assets');极
     }
     
   } catch (error) {

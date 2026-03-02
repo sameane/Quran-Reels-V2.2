@@ -1018,7 +1018,7 @@ export const Player: React.FC<PlayerProps> = ({ ayahs, videoUrls, surahInfo, rec
                                 <button 
                                     onClick={() => playSequence(true)} 
                                     disabled={!isReady}
-                                    className={`p-8 rounded-full transition-all transform hover:scale-105 ${isReady ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg shadow-emerald-500/25' : 'bg-slate-800 text-slate-600'}`}
+                                    className={`p-8 rounded-full transition-all transform hover:scale-105 ${isReady ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25' : 'bg-slate-800 text-slate-600'}`}
                                     title="تشغيل وتصدير"
                                 >
                                     <Play size={40} fill="currentColor" />

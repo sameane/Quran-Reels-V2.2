@@ -81,16 +81,11 @@ export const fetchAyahRange = async (
 const getLocalVideoFiles = (): string[] => {
   // Return all available local video files from assets folder
   const localVideos = [
-    '/assets/6962-197634410_medium.mp4',
-    '/assets/8947-215890483_medium.mp4',
-    '/assets/9153-217588676_medium.mp4',
-    '/assets/17013-278400948_medium.mp4',
-    '/assets/21723-320725678_medium.mp4',
-    '/assets/126678-736705679_medium.mp4',
-    '/assets/140568-775389231_medium.mp4',
-    '/assets/140733-775596128_medium.mp4',
-    '/assets/280165_medium.mp4',
-    '/assets/312999_medium.mp4'
+    '/assets/earth planet.mp4',
+    '/assets/landscape.mp4',
+    '/assets/rain.mp4',
+    '/assets/sky and clouds.mp4',
+    '/assets/sky night.mp4'
   ];
 
   return localVideos;
